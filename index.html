@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shinchan: Shiro and the Coal Town</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* 顶部 Banner 容器 */
+        .banner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            height: 250px;
+        }
+
+        /* 左图（完整显示） */
+        .banner-left {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            max-width: 50%;
+        }
+
+        /* 右图（裁剪显示） */
+        .banner-right {
+            height: 100%;
+            width: auto;
+            object-fit: cover;
+            object-position: center;
+            max-width: 50%;
+        }
+
+        /* 标题部分 */
+        .title-section {
+            text-align: center;
+            margin: 25px 0 15px;
+            padding: 0 15px;
+        }
+        .main-title {
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #e74c3c;
+        }
+        .sub-title {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* 视频容器 */
+        .video-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+        .video-container video {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* 角色标题 */
+        .characters-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 28px;
+            margin: 40px 0 30px;
+            color: #2c3e50;
+        }
+
+        /* 角色容器 - 三列布局 */
+        .characters-row {
+            max-width: 900px;
+            margin: 0 auto 50px;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        /* 角色卡片通用样式 */
+        .character-card {
+            width: 220px;
+            margin-bottom: 30px;
+        }
+        .character-name {
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #000;
+            text-align: center;
+        }
+        .character-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 0 auto 15px;
+            display: block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .character-description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #000;
+            text-align: center;
+        }
+
+        /* 特定角色卡位置 */
+        .character-left {
+            text-align: left;
+        }
+        .character-center {
+            margin: 0 auto;
+        }
+        .character-right {
+            text-align: right;
+        }
+
+        /* 反馈表单样式 */
+        .feedback-form {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+        .form-question {
+            font-weight: bold;
+            margin: 15px 0 8px;
+        }
+        .radio-group {
+            margin: 10px 0 20px;
+        }
+        .radio-option {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        .radio-option input {
+            margin-right: 10px;
+        }
+        .text-input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .text-area {
+            width: 100%;
+            height: 80px;
+            padding: 8px;
+            margin: 5px 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .date-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .date-input input {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 30px auto 0;
+        }
+        .submit-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .banner-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .banner-left, .banner-right {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100%;
+            }
+            .banner-left {
+                margin-bottom: 10px;
+            }
+            .main-title {
+                font-size: 20px;
+            }
+            .sub-title {
+                font-size: 14px;
+            }
+            .characters-title {
+                font-size: 24px;
+                margin: 30px 0 20px;
+            }
+            .characters-row {
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 30px;
+            }
+            .character-card {
+                margin-bottom: 40px;
+            }
+            .character-left,
+            .character-center,
+            .character-right {
+                text-align: center;
+            }
+            .date-input {
+                flex-wrap: wrap;
+            }
+            .date-input input {
+                width: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部 Banner -->
+    <div class="banner-container">
+        <img src="assets/shin-chan-banner.jpg" alt="蜡笔小新横幅" class="banner-left">
+        <img src="assets/naughtiest-son.jpg" alt="调皮的小新" class="banner-right">
+    </div>
+
+    <!-- 标题部分 -->
+    <div class="title-section">
+        <div class="main-title">Shinchan: Shiro and the Coal Town</div>
+        <div class="sub-title">(Available on: Nintendo Switch and Windows PC)</div>
+    </div>
+
+    <!-- 视频部分 -->
+    <div class="video-container">
+        <video controls poster="assets/shinchan-coal-town-poster.jpg">
+            <source src="assets/shinchan-and-the-coal-town.mp4" type="video/mp4">
+            您的浏览器不支持HTML5视频，请使用现代浏览器观看。
+        </video>
+    </div>
+
+    <!-- 角色标题 -->
+    <div class="characters-title">The Characters</div>
+
+    <!-- 第一行角色：野原家核心成员 -->
+    <div class="characters-row">
+        <!-- Shinchan角色 - 靠左 -->
+        <div class="character-card character-left">
+            <div class="character-name">Shinnosuke Nohara (Shinchan)</div>
+            <img src="assets/character-shinchan.png" alt="Shinchan" class="character-image">
+            <div class="character-description">
+                The mischievous 5-year-old protagonist known for his
+                hilarious antics and love of choco chips.
+            </div>
+        </div>
+
+        <!-- Misae角色 - 居中 -->
+        <div class="character-card character-center">
+            <div class="character-name">Misae Nohara (Mom)</div>
+            <img src="assets/character-misae.webp" alt="Misae" class="character-image">
+            <div class="character-description">
+                Shinchan's short-tempered but loving mother, always
+                trying to keep him in line.
+            </div>
+        </div>
+
+        <!-- Hiroshi角色 - 靠右 -->
+        <div class="character-card character-right">
+            <div class="character-name">Hiroshi Nohara (Dad)</div>
+            <img src="assets/character-hiroshi.webp" alt="Hiroshi" class="character-image">
+            <div class="character-description">
+                The laid-back father who works at a company
+                and enjoys his evening beer.
+            </div>
+        </div>
+    </div>
+
+    <!-- 第二行角色：其他成员 -->
+    <div class="characters-row">
+        <!-- Himawari角色 - 靠左 -->
+        <div class="character-card character-left">
+            <div class="character-name">Himawari (Sister)</div>
+            <img src="assets/character-himawari.png" alt="Himawari" class="character-image">
+            <div class="character-description">
+                The youngest of the Noharas. Loves shiny objects and brand
+                name goods. Smiles sideways, like Shinchan.
+            </div>
+        </div>
+
+        <!-- Yukino角色 - 居中 -->
+        <div class="character-card character-center">
+            <div class="character-name">Yukino Nohara (Shiro)</div>
+            <img src="assets/character-shiro.png" alt="Shiro" class="character-image">
+            <div class="character-description">
+                The family dog — small, fluffy, and sometimes the
+                most sensible member of the household.
+            </div>
+        </div>
+
+        <!-- Toru角色 - 靠右 -->
+        <div class="character-card character-right">
+            <div class="character-name">Toru Kazama</div>
+            <img src="assets/character-toru-kazama.webp" alt="Toru Kazama" class="character-image">
+            <div class="character-description">
+                The smart and responsible friend of Shinchan,
+                often the voice of reason in the group.
+            </div>
+        </div>
+    </div>
+
+    <!-- 反馈表单部分 -->
+    <div class="feedback-form">
+        <div class="form-title">Who's your favorite?</div>
+        
+        <div class="form-question">Who's your favorite character?</div>
+        <div class="radio-group">
+            <div class="radio-option">
+                <input type="radio" id="shinchan" name="favorite" value="Shinchan">
+                <label for="shinchan">Shinchan</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="misae" name="favorite" value="Misae">
+                <label for="misae">Misae (Mom)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="hiroshi" name="favorite" value="Hiroshi">
+                <label for="hiroshi">Hiroshi (Dad)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="himawari" name="favorite" value="Himawari">
+                <label for="himawari">Himawari (Sister)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="shiro" name="favorite" value="Shiro">
+                <label for="shiro">Shiro (Dog)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="toru" name="favorite" value="Toru">
+                <label for="toru">Toru Kazama</label>
+            </div>
+        </div>
+
+        <div class="form-question">Character not in the list? Write their name below:</div>
+        <input type="text" class="text-input" placeholder="Enter character name">
+
+        <div class="form-question">Why do you like this character?</div>
+        <textarea class="text-area" placeholder="State your reasons in a couple of lines..."></textarea>
+
+        <div class="form-title" style="margin-top: 30px;">Tell us a bit more about yourself</div>
+        
+        <div class="form-question">Your Name:</div>
+        <input type="text" class="text-input" placeholder="Enter your name">
+
+        <div class="form-question">Your Gender:</div>
+        <div class="radio-group" style="margin-bottom: 20px;">
+            <div class="radio-option">
+                <input type="radio" id="male" name="gender" value="Male">
+                <label for="male">Male</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="female" name="gender" value="Female">
+                <label for="female">Female</label>
+            </div>
+        </div>
+
+        <div class="form-question">Your Date of Birth:</div>
+        <div class="date-input">
+            <input type="text" placeholder="dd" maxlength="2" style="width: 50px;">
+            <span>.</span>
+            <input type="text" placeholder="mm" maxlength="2" style="width: 50px;">
+            <span>.</span>
+            <input type="text" placeholder="yyyy" maxlength="4" style="width: 70px;">
+        </div>
+
+        <button type="submit" class="submit-btn">Submit</button>
+    </div>
+</body>
+</html>
